@@ -3,783 +3,1635 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Laboratório Térmico de Transformadores</title>
 
 <style>
+
 *{
-  box-sizing:border-box;
+    box-sizing:border-box;
 }
 
 body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#eef2f7;
-  color:#0b2c5a;
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at center,#0b2235,#020914 70%);
+    color:white;
+    min-height:100vh;
 }
 
+/* =====================================
+   CABEÇALHO
+===================================== */
+
 header{
-  background:linear-gradient(135deg,#031d46,#0a4a86);
-  color:white;
-  padding:22px 34px;
-  border-bottom:6px solid #f0a300;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
+    min-height:86px;
+    padding:18px 32px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    border-bottom:1px solid #1f5877;
+
+    background:rgba(2,10,20,.94);
 }
 
 header h1{
-  margin:0;
-  font-size:30px;
+    margin:0;
+    font-size:30px;
+    letter-spacing:.5px;
 }
 
 header p{
-  margin:6px 0 0 0;
-  opacity:.9;
+    margin:5px 0 0;
+    color:#b7c4cf;
 }
 
 .author{
-  color:#ffd05a;
-  font-weight:bold;
-  white-space:nowrap;
+    color:#ffad18;
+    font-weight:bold;
+    font-style:italic;
+    font-size:17px;
 }
 
-.container{
-  max-width:1450px;
-  margin:auto;
-  padding:20px;
-  display:grid;
-  grid-template-columns:440px 1fr;
-  gap:20px;
+
+/* =====================================
+   PAINEL TEMPERATURA
+===================================== */
+
+.temperature-control{
+
+    margin:16px;
+
+    padding:18px 25px;
+
+    background:linear-gradient(
+        120deg,
+        rgba(8,32,52,.96),
+        rgba(4,20,34,.96)
+    );
+
+    border:1px solid #29516a;
+
+    border-radius:15px;
+
+    display:grid;
+
+    grid-template-columns:
+        210px 1fr 540px;
+
+    gap:25px;
+
+    align-items:center;
 }
 
-.panel{
-  background:white;
-  border-radius:18px;
-  box-shadow:0 6px 20px rgba(0,0,0,.10);
-  padding:20px;
+.temp-current{
+    display:flex;
+    align-items:center;
+    gap:20px;
 }
 
-.panel h2{
-  margin-top:0;
+.temp-current .label{
+    font-size:17px;
+    font-weight:bold;
+    color:#d3dde4;
 }
 
-.transformer-area{
-  position:relative;
-  height:510px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+.temp-current .number{
+    font-size:50px;
+    font-weight:bold;
+    color:#ff503a;
 }
 
-/* TRANSFORMADOR */
-
-.transformer{
-  position:relative;
-  width:300px;
-  height:330px;
+.slider-wrap{
+    width:100%;
 }
 
-.tank{
-  position:absolute;
-  left:55px;
-  top:70px;
-  width:190px;
-  height:230px;
-  border:7px solid #2d3f51;
-  border-radius:10px;
-  background:#dce9f3;
-  overflow:hidden;
-  box-shadow:inset 0 0 18px rgba(0,0,0,.15);
+input[type=range]{
+
+    width:100%;
+
+    accent-color:#ff582e;
 }
 
-.oil{
-  position:absolute;
-  bottom:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:linear-gradient(
-    rgba(255,215,80,.62),
-    rgba(255,140,30,.72)
-  );
-  transition:.5s;
+.scale{
+    display:flex;
+    justify-content:space-between;
+    margin-top:6px;
+    color:#d8e1e8;
+    font-size:13px;
 }
 
-.core{
-  position:absolute;
-  left:47px;
-  top:38px;
-  width:82px;
-  height:135px;
-  border:13px solid #525b66;
-  border-radius:8px;
-  z-index:3;
+.temp-buttons{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(6,1fr);
+
+    gap:8px;
 }
 
-.coil{
-  position:absolute;
-  top:48px;
-  width:34px;
-  height:115px;
-  border-radius:18px;
-  background:linear-gradient(#d96d12,#ffad32,#b74900);
-  z-index:4;
-  box-shadow:0 0 8px rgba(120,30,0,.4);
+.temp-buttons button{
+
+    border:1px solid #285778;
+
+    border-radius:8px;
+
+    background:#071b2b;
+
+    padding:13px 5px;
+
+    color:#64cfff;
+
+    font-weight:bold;
+
+    font-size:15px;
+
+    cursor:pointer;
 }
 
-.coil.c1{ left:63px; }
-.coil.c2{ left:110px; }
-.coil.c3{ left:157px; }
-
-.fin{
-  position:absolute;
-  top:88px;
-  width:20px;
-  height:185px;
-  background:#355d76;
-  border-radius:5px;
+.temp-buttons button:nth-child(3){
+    color:#7dcc5d;
 }
 
-.f1{left:15px}
-.f2{left:36px}
-.f3{right:36px}
-.f4{right:15px}
+.temp-buttons button:nth-child(4){
+    color:#ffc72f;
+}
+
+.temp-buttons button:nth-child(5){
+    color:#ff941d;
+}
+
+.temp-buttons button:nth-child(6){
+    color:#ff5541;
+}
+
+.temp-buttons button:hover{
+    background:#102f45;
+}
+
+
+/* =====================================
+   CONTEÚDO
+===================================== */
+
+.main{
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(650px,1.5fr)
+        minmax(450px,.9fr);
+
+    gap:18px;
+
+    padding:0 16px 20px;
+}
+
+
+/* =====================================
+   TRANSFORMADOR
+===================================== */
+
+.transformer-panel{
+
+    position:relative;
+
+    min-height:660px;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    background:
+        radial-gradient(circle at center,
+        rgba(25,55,72,.75),
+        rgba(2,8,15,.96) 72%);
+
+    border:1px solid #143c55;
+}
+
+
+/* IMAGEM DO TRANSFORMADOR */
+
+.transformer-image{
+
+    position:absolute;
+
+    left:50%;
+    top:52%;
+
+    transform:translate(-50%,-50%);
+
+    width:min(78%,720px);
+
+    max-height:590px;
+
+    object-fit:contain;
+
+    z-index:3;
+
+    filter:
+        drop-shadow(0 10px 22px black)
+        brightness(1.05);
+}
+
+
+/* BRILHO DO ÓLEO */
+
+.oil-glow{
+
+    position:absolute;
+
+    left:50%;
+    top:51%;
+
+    transform:translate(-50%,-50%);
+
+    width:420px;
+    height:430px;
+
+    border-radius:25%;
+
+    background:
+        radial-gradient(
+        circle,
+        rgba(255,130,0,.45),
+        rgba(255,70,0,.15) 50%,
+        transparent 72%
+        );
+
+    z-index:4;
+
+    pointer-events:none;
+
+    transition:.5s;
+}
+
+
+/* =====================================
+   BOLHAS
+===================================== */
+
+.bubbles{
+
+    position:absolute;
+
+    left:50%;
+
+    top:23%;
+
+    transform:translateX(-50%);
+
+    width:330px;
+
+    height:395px;
+
+    overflow:hidden;
+
+    z-index:6;
+
+    pointer-events:none;
+}
+
+.bubble{
+
+    position:absolute;
+
+    bottom:-35px;
+
+    width:14px;
+    height:14px;
+
+    border-radius:50%;
+
+    border:2px solid rgba(255,225,130,.8);
+
+    background:
+        radial-gradient(
+        circle at 30% 30%,
+        rgba(255,255,255,.95),
+        rgba(255,173,35,.35) 40%,
+        rgba(255,110,0,.08)
+        );
+
+    box-shadow:
+        0 0 7px rgba(255,150,20,.7);
+
+    animation:
+        rise linear infinite;
+}
+
+@keyframes rise{
+
+    0%{
+        transform:
+            translateY(0)
+            scale(.6);
+
+        opacity:0;
+    }
+
+    10%{
+        opacity:.8;
+    }
+
+    80%{
+        opacity:.7;
+    }
+
+    100%{
+
+        transform:
+            translateY(-430px)
+            scale(1.5);
+
+        opacity:0;
+    }
+}
+
+
+/* =====================================
+   SETAS DE CALOR
+===================================== */
 
 .heat-arrow{
-  position:absolute;
-  font-weight:bold;
-  font-size:14px;
+
+    position:absolute;
+
+    z-index:8;
+
+    font-size:52px;
+
+    color:#ff6b35;
+
+    text-shadow:
+        0 0 15px #ff4300;
+
+    transition:.4s;
 }
 
-.h1{
-  left:-5px;
-  top:165px;
-  color:#d93422;
+.arrow-left1{
+    left:35px;
+    top:270px;
 }
 
-.h2{
-  right:-10px;
-  top:165px;
-  color:#d93422;
+.arrow-left2{
+    left:55px;
+    top:355px;
 }
 
-.temp-badge{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  bottom:15px;
-  padding:8px 14px;
-  background:#092e61;
-  color:white;
-  border-radius:20px;
-  font-weight:bold;
+.arrow-left3{
+    left:25px;
+    top:440px;
 }
 
-.hotspot{
-  position:absolute;
-  left:50%;
-  top:135px;
-  transform:translateX(-50%);
-  width:100px;
-  height:100px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(255,0,0,.42), rgba(255,0,0,0));
-  transition:.4s;
-  z-index:2;
+.arrow-right{
+    right:40px;
+    top:370px;
 }
 
-/* CONTROLES */
+.arrow-text{
 
-.control-box{
-  margin-top:12px;
+    position:absolute;
+
+    color:#ffb087;
+
+    font-size:14px;
+
+    z-index:8;
 }
 
-.control-title{
-  font-weight:bold;
-  margin-bottom:10px;
+.left-text{
+    left:32px;
+    top:220px;
 }
 
-input[type="range"]{
-  width:100%;
+
+/* =====================================
+   LEGENDAS
+===================================== */
+
+.label-box{
+
+    position:absolute;
+
+    z-index:10;
+
+    color:white;
+
+    font-size:15px;
+
+    line-height:1.5;
+
+    background:
+        rgba(0,10,20,.57);
+
+    padding:8px 10px;
+
+    border-radius:8px;
 }
 
-.temp-scale{
-  display:flex;
-  justify-content:space-between;
-  font-size:12px;
-  color:#657387;
+.label-oil{
+    right:45px;
+    top:200px;
 }
 
-.quick-buttons{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:12px;
+.label-coils{
+    right:45px;
+    top:320px;
 }
 
-.quick-buttons button{
-  border:none;
-  border-radius:9px;
-  padding:10px;
-  font-weight:bold;
-  cursor:pointer;
-  background:#e8eef5;
-  color:#0b2c5a;
+.label-core{
+    right:45px;
+    top:445px;
 }
 
-.quick-buttons button:hover{
-  background:#d9e4ef;
+.label-fins{
+    left:25px;
+    top:110px;
 }
 
-/* DIREITA */
 
-.status{
-  background:white;
-  border-radius:16px;
-  padding:18px;
-  box-shadow:0 5px 16px rgba(0,0,0,.08);
+/* =====================================
+   CAMINHO DE CALOR
+===================================== */
+
+.heat-path{
+
+    position:absolute;
+
+    bottom:12px;
+
+    left:12px;
+    right:12px;
+
+    z-index:12;
+
+    padding:13px;
+
+    border-radius:13px;
+
+    border:1px solid #285268;
+
+    background:
+        rgba(5,22,36,.93);
 }
 
-.status-title{
-  font-size:24px;
-  font-weight:bold;
+.heat-path-title{
+
+    text-align:center;
+
+    color:#d5e2e9;
+
+    margin-bottom:10px;
+
+    font-weight:bold;
 }
 
-.status-text{
-  color:#555;
-  margin-top:6px;
-}
+.path-row{
 
-.cards{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-}
+    display:flex;
 
-.card{
-  background:white;
-  border-radius:14px;
-  padding:16px;
-  box-shadow:0 4px 14px rgba(0,0,0,.08);
-  border-left:6px solid #e5a100;
-}
+    justify-content:center;
 
-.card .label{
-  font-size:13px;
-  font-weight:bold;
-  color:#617082;
-}
+    align-items:center;
 
-.card .value{
-  font-size:26px;
-  font-weight:bold;
-  color:#0a326d;
-  margin-top:7px;
-}
-
-.card .unit{
-  font-size:13px;
-  color:#777;
-}
-
-.path-box{
-  background:white;
-  border-radius:16px;
-  padding:18px;
-  box-shadow:0 4px 14px rgba(0,0,0,.08);
-}
-
-.path{
-  display:flex;
-  align-items:center;
-  justify-content:space-around;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-top:16px;
+    gap:15px;
 }
 
 .path-item{
-  background:#edf3f9;
-  padding:14px 16px;
-  border-radius:10px;
-  font-weight:bold;
-  text-align:center;
-  min-width:130px;
+
+    flex:1;
+
+    text-align:center;
+
+    background:#0a2437;
+
+    border-radius:10px;
+
+    padding:10px 8px;
+
+    min-height:66px;
 }
 
-.arrow{
-  font-size:28px;
-  color:#dd7910;
+.path-item strong{
+    color:white;
 }
 
-.explanation{
-  background:#082f61;
-  color:white;
-  padding:18px;
-  border-radius:14px;
-  line-height:1.65;
+.path-item small{
+    color:#bac8d0;
 }
 
-.explanation strong{
-  color:#ffd05a;
+.path-arrow{
+
+    color:#59c5ec;
+
+    font-size:30px;
 }
 
-.warning{
-  background:#fff3d9;
-  border:2px solid #e8a216;
-  color:#4d3b00;
-  padding:14px 18px;
-  border-radius:12px;
+
+/* =====================================
+   PAINEL DIREITO
+===================================== */
+
+.right-panel{
+
+    padding:16px;
+
+    border-radius:14px;
+
+    background:
+        rgba(4,17,29,.88);
+
+    border:1px solid #244d67;
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:16px;
 }
 
-.good{
-  background:#e8f7ee;
-  border:2px solid #28a45a;
-  color:#155c33;
-}
 
-.medium{
-  background:#fff4dc;
-  border:2px solid #e2a127;
-  color:#6b4b00;
-}
+/* =====================================
+   CARTÕES
+===================================== */
 
-.bad{
-  background:#fde7e5;
-  border:2px solid #d33b32;
-  color:#7c1e18;
-}
+.metric{
 
-@media(max-width:1000px){
-  .container{
-    grid-template-columns:1fr;
-  }
+    min-height:165px;
 
-  .cards{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
+    border-radius:13px;
 
-@media(max-width:650px){
-  header{
+    border:1px solid #31546a;
+
+    background:
+        linear-gradient(
+        145deg,
+        rgba(8,30,47,.9),
+        rgba(3,14,25,.9)
+        );
+
+    display:flex;
+
     flex-direction:column;
-    align-items:flex-start;
-  }
 
-  .author{
-    white-space:normal;
-  }
+    justify-content:center;
 
-  .cards{
-    grid-template-columns:1fr;
-  }
+    align-items:center;
 
-  .quick-buttons{
-    grid-template-columns:repeat(2,1fr);
-  }
+    text-align:center;
+
+    padding:15px;
 }
+
+.metric-title{
+
+    color:#e8edf0;
+
+    font-weight:bold;
+
+    margin-bottom:13px;
+}
+
+.metric-value{
+
+    font-size:43px;
+
+    font-weight:bold;
+
+    color:#ff9e1c;
+}
+
+.max .metric-value{
+    color:#ff4d3c;
+}
+
+.delta .metric-value{
+    color:#4bc4ff;
+}
+
+.dissipation .metric-value{
+    color:#77ce52;
+}
+
+.risk .metric-value{
+    color:#ff5343;
+}
+
+.status .metric-value{
+    color:#ffa734;
+}
+
+.metric-sub{
+
+    margin-top:8px;
+
+    color:#c7d1d7;
+
+    font-size:14px;
+}
+
+
+/* =====================================
+   IDEIA CENTRAL
+===================================== */
+
+.idea{
+
+    grid-column:1 / 3;
+
+    border:1px solid #28546e;
+
+    border-radius:12px;
+
+    padding:18px;
+
+    text-align:center;
+
+    background:#061c2d;
+
+    line-height:1.6;
+}
+
+.idea h3{
+
+    color:#42c3ff;
+
+    margin:0 0 8px;
+}
+
+.idea strong{
+    color:#ffad18;
+}
+
+
+/* =====================================
+   NOTA
+===================================== */
+
+.note{
+
+    grid-column:1/3;
+
+    border:1px solid #24485f;
+
+    border-radius:12px;
+
+    padding:13px;
+
+    color:#bdcbd4;
+
+    background:#061725;
+
+    font-size:13px;
+
+    line-height:1.5;
+}
+
+
+/* =====================================
+   RESPONSIVO
+===================================== */
+
+@media(max-width:1150px){
+
+    .temperature-control{
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .main{
+
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+@media(max-width:700px){
+
+    header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+    }
+
+    .temp-buttons{
+
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+    .right-panel{
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .idea,
+    .note{
+
+        grid-column:1;
+    }
+
+    .transformer-panel{
+
+        min-height:600px;
+    }
+
+    .label-box{
+        display:none;
+    }
+
+}
+
 </style>
 </head>
 
+
 <body>
 
+
 <header>
-  <div>
-    <h1>Laboratório Térmico de Transformadores</h1>
-    <p>Temperatura ambiente • óleo • dissipação de calor • resfriamento</p>
-  </div>
 
-  <div class="author">
-    Desenvolvido por Fabrizio Porfirio
-  </div>
-</header>
+<div>
 
-<div class="container">
+<h1>
+🌡 LABORATÓRIO TÉRMICO DE TRANSFORMADORES
+</h1>
 
-  <!-- ESQUERDA -->
-  <section class="panel">
-
-    <h2>Transformador didático</h2>
-
-    <div class="transformer-area">
-
-      <div class="transformer">
-
-        <div class="fin f1"></div>
-        <div class="fin f2"></div>
-        <div class="fin f3"></div>
-        <div class="fin f4"></div>
-
-        <div class="tank">
-
-          <div class="oil" id="oil"></div>
-
-          <div class="hotspot" id="hotspot"></div>
-
-          <div class="core"></div>
-
-          <div class="coil c1"></div>
-          <div class="coil c2"></div>
-          <div class="coil c3"></div>
-
-        </div>
-
-        <div class="heat-arrow h1">
-          ← calor para o ambiente
-        </div>
-
-        <div class="heat-arrow h2">
-          calor para o ambiente →
-        </div>
-
-        <div class="temp-badge" id="tempBadge">
-          Ambiente: 30 °C
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="control-box">
-
-      <div class="control-title">
-        Temperatura ambiente
-      </div>
-
-      <input
-        id="ambientSlider"
-        type="range"
-        min="23"
-        max="42"
-        step="1"
-        value="30"
-      >
-
-      <div class="temp-scale">
-        <span>23 °C</span>
-        <span>42 °C</span>
-      </div>
-
-      <div class="quick-buttons">
-        <button onclick="setAmbient(23)">23 °C</button>
-        <button onclick="setAmbient(27)">27 °C</button>
-        <button onclick="setAmbient(30)">30 °C</button>
-        <button onclick="setAmbient(32)">32 °C</button>
-        <button onclick="setAmbient(37)">37 °C</button>
-        <button onclick="setAmbient(42)">42 °C</button>
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- DIREITA -->
-  <section style="display:grid; gap:18px;">
-
-    <div class="status">
-      <div class="status-title" id="statusTitle">
-        Condição moderada
-      </div>
-
-      <div class="status-text" id="statusText">
-        O transformador ainda consegue dissipar calor de forma relativamente eficiente.
-      </div>
-    </div>
-
-    <div class="cards">
-
-      <div class="card">
-        <div class="label">TEMPERATURA AMBIENTE</div>
-        <div class="value" id="ambientValue">30</div>
-        <div class="unit">°C</div>
-      </div>
-
-      <div class="card">
-        <div class="label">TEMPERATURA MÉDIA DO ÓLEO</div>
-        <div class="value" id="oilAverage">61.0</div>
-        <div class="unit">°C</div>
-      </div>
-
-      <div class="card">
-        <div class="label">TEMPERATURA MÁXIMA DO ÓLEO</div>
-        <div class="value" id="oilMax">75.0</div>
-        <div class="unit">°C</div>
-      </div>
-
-      <div class="card">
-        <div class="label">DIFERENÇA TÉRMICA</div>
-        <div class="value" id="deltaT">31.0</div>
-        <div class="unit">°C</div>
-      </div>
-
-      <div class="card">
-        <div class="label">DISSIPAÇÃO RELATIVA</div>
-        <div class="value" id="dissipation">68</div>
-        <div class="unit">%</div>
-      </div>
-
-      <div class="card">
-        <div class="label">RISCO TÉRMICO</div>
-        <div class="value" id="riskLevel">MODERADO</div>
-        <div class="unit">avaliação didática</div>
-      </div>
-
-    </div>
-
-    <div class="path-box">
-
-      <h2>Caminho da transferência de calor</h2>
-
-      <div class="path">
-
-        <div class="path-item">
-          Bobinas e núcleo
-        </div>
-
-        <div class="arrow">→</div>
-
-        <div class="path-item">
-          Óleo
-        </div>
-
-        <div class="arrow">→</div>
-
-        <div class="path-item">
-          Tanque e aletas
-        </div>
-
-        <div class="arrow">→</div>
-
-        <div class="path-item">
-          Ambiente
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="explanation">
-
-      <strong>Ideia física central:</strong><br>
-      à medida que a temperatura ambiente aumenta, a diferença de temperatura
-      entre o transformador e o ar externo diminui. Com menor diferença térmica,
-      a dissipação de calor para o ambiente torna-se menos eficiente e a
-      temperatura do óleo aumenta.
-
-    </div>
-
-    <div class="warning" id="warningBox">
-
-      Este simulador é didático e reproduz a tendência física discutida no artigo.
-      Os valores exibidos não representam uma reprodução numérica exata da
-      simulação CFD original.
-
-    </div>
-
-  </section>
+<p>
+Estudo do impacto da temperatura ambiente no resfriamento de transformadores
+</p>
 
 </div>
 
+
+<div class="author">
+
+Desenvolvido por Fabrizio Porfirio
+
+</div>
+
+</header>
+
+
+
+<!-- ====================================
+     CONTROLE DE TEMPERATURA
+==================================== -->
+
+<section class="temperature-control">
+
+
+<div class="temp-current">
+
+<div class="label">
+TEMPERATURA<br>
+AMBIENTE
+</div>
+
+<div class="number" id="ambientTop">
+30 °C
+</div>
+
+</div>
+
+
+
+<div class="slider-wrap">
+
+<input
+type="range"
+id="temperatureSlider"
+min="23"
+max="42"
+value="30"
+step="1"
+>
+
+<div class="scale">
+
+<span>23 °C</span>
+<span>27 °C</span>
+<span>30 °C</span>
+<span>32 °C</span>
+<span>37 °C</span>
+<span>42 °C</span>
+
+</div>
+
+</div>
+
+
+
+<div class="temp-buttons">
+
+<button onclick="setTemperature(23)">
+23 °C
+</button>
+
+<button onclick="setTemperature(27)">
+27 °C
+</button>
+
+<button onclick="setTemperature(30)">
+30 °C
+</button>
+
+<button onclick="setTemperature(32)">
+32 °C
+</button>
+
+<button onclick="setTemperature(37)">
+37 °C
+</button>
+
+<button onclick="setTemperature(42)">
+42 °C
+</button>
+
+</div>
+
+</section>
+
+
+
+<div class="main">
+
+
+<!-- ====================================
+     TRANSFORMADOR
+==================================== -->
+
+<section class="transformer-panel">
+
+
+<div class="label-box label-fins">
+
+<strong>TANQUE E ALETAS</strong><br>
+Dissipação de calor<br>
+para o ambiente
+
+</div>
+
+
+<div class="label-box label-oil">
+
+<strong>ÓLEO ISOLANTE</strong><br>
+Transporta o calor<br>
+para o tanque
+
+</div>
+
+
+<div class="label-box label-coils">
+
+<strong>BOBINAS</strong><br>
+Fonte de calor<br>
+1000 W cada
+
+</div>
+
+
+<div class="label-box label-core">
+
+<strong>NÚCLEO</strong><br>
+Fonte de calor<br>
+500 W
+
+</div>
+
+
+<div class="arrow-text left-text">
+
+Transferência de calor<br>
+para o ambiente
+
+</div>
+
+
+<div class="heat-arrow arrow-left1">
+←
+</div>
+
+<div class="heat-arrow arrow-left2">
+←
+</div>
+
+<div class="heat-arrow arrow-left3">
+←
+</div>
+
+<div class="heat-arrow arrow-right">
+→
+</div>
+
+
+<!--
+IMPORTANTE:
+
+coloque a imagem do transformador
+na mesma pasta com o nome:
+
+transformador.png
+-->
+
+<img
+class="transformer-image"
+src="transformador.png"
+alt="Transformador elétrico"
+>
+
+
+<div
+class="oil-glow"
+id="oilGlow">
+</div>
+
+
+<div
+class="bubbles"
+id="bubbles">
+</div>
+
+
+
+<!-- CAMINHO -->
+
+<div class="heat-path">
+
+<div class="heat-path-title">
+
+CAMINHO DA TRANSFERÊNCIA DE CALOR
+
+</div>
+
+
+<div class="path-row">
+
+<div class="path-item">
+
+<strong>
+Bobinas e núcleo
+</strong>
+
+<br>
+
+<small>
+Geram calor
+</small>
+
+</div>
+
+
+<div class="path-arrow">
+→
+</div>
+
+
+<div class="path-item">
+
+<strong>
+Óleo isolante
+</strong>
+
+<br>
+
+<small>
+Transporta o calor
+</small>
+
+</div>
+
+
+<div class="path-arrow">
+→
+</div>
+
+
+<div class="path-item">
+
+<strong>
+Tanque e aletas
+</strong>
+
+<br>
+
+<small>
+Dissipam o calor
+</small>
+
+</div>
+
+
+<div class="path-arrow">
+→
+</div>
+
+
+<div class="path-item">
+
+<strong>
+Ambiente
+</strong>
+
+<br>
+
+<small>
+Recebe o calor
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+
+<!-- ====================================
+     INDICADORES
+==================================== -->
+
+<section class="right-panel">
+
+
+<div class="metric">
+
+<div class="metric-title">
+
+TEMP. MÉDIA DO ÓLEO
+
+</div>
+
+<div
+class="metric-value"
+id="oilAverage">
+
+—
+
+</div>
+
+<div class="metric-sub">
+
+Temperatura média simulada
+
+</div>
+
+</div>
+
+
+
+<div class="metric max">
+
+<div class="metric-title">
+
+TEMP. MÁXIMA DO ÓLEO
+
+</div>
+
+<div
+class="metric-value"
+id="oilMaximum">
+
+—
+
+</div>
+
+<div class="metric-sub">
+
+Região mais quente
+
+</div>
+
+</div>
+
+
+
+<div class="metric delta">
+
+<div class="metric-title">
+
+DIFERENÇA TÉRMICA ΔT
+
+</div>
+
+<div
+class="metric-value"
+id="temperatureDifference">
+
+—
+
+</div>
+
+<div class="metric-sub">
+
+Óleo médio − ambiente
+
+</div>
+
+</div>
+
+
+
+<div class="metric dissipation">
+
+<div class="metric-title">
+
+DISSIPAÇÃO RELATIVA
+
+</div>
+
+<div
+class="metric-value"
+id="dissipation">
+
+—
+
+</div>
+
+<div class="metric-sub">
+
+Capacidade relativa de dissipar calor
+
+</div>
+
+</div>
+
+
+
+<div class="metric risk">
+
+<div class="metric-title">
+
+RISCO TÉRMICO
+
+</div>
+
+<div
+class="metric-value"
+id="risk">
+
+—
+
+</div>
+
+<div
+class="metric-sub"
+id="riskText">
+
+—
+
+</div>
+
+</div>
+
+
+
+<div class="metric status">
+
+<div class="metric-title">
+
+STATUS DO TRANSFORMADOR
+
+</div>
+
+<div
+class="metric-value"
+id="status">
+
+—
+
+</div>
+
+<div
+class="metric-sub"
+id="statusText">
+
+—
+
+</div>
+
+</div>
+
+
+
+<div class="idea">
+
+<h3>
+IDEIA FÍSICA CENTRAL
+</h3>
+
+Temperatura ambiente elevada
+
+<strong>
+→ menor diferença térmica
+</strong>
+
+→
+
+<strong>
+menor dissipação de calor
+</strong>
+
+→ aumento da temperatura do óleo.
+
+</div>
+
+
+
+<div class="note">
+
+ℹ Simulador didático inspirado no estudo CFD de um transformador
+de 250 kVA. Os valores apresentados têm finalidade educacional
+e não representam reprodução numérica exata da simulação do artigo.
+
+</div>
+
+
+</section>
+
+</div>
+
+
+
 <script>
 
-/*
-  MODELO DIDÁTICO
+/* ==========================================
+   CONFIGURAÇÕES
+========================================== */
 
-  O artigo mostra:
-  temperatura ambiente ↑
-  → dissipação de calor ↓
-  → temperatura média e máxima do óleo ↑
+const slider =
+document.getElementById(
+"temperatureSlider"
+);
 
-  Como o artigo não fornece uma tabela completa
-  com todos os valores numéricos para cada temperatura,
-  usamos aqui uma relação didática coerente com a tendência.
-*/
 
-const slider = document.getElementById("ambientSlider");
+/* ==========================================
+   CRIAR BOLHAS
+========================================== */
 
-slider.addEventListener("input", function(){
-  updateSimulation(Number(this.value));
-});
+function createBubbles(){
 
+    const area =
+    document.getElementById(
+    "bubbles"
+    );
 
-function setAmbient(value){
-  slider.value = value;
-  updateSimulation(value);
-}
+    area.innerHTML="";
 
 
-function updateSimulation(Tamb){
+    const temperature =
+    Number(slider.value);
 
-  /*
-    Relações didáticas aproximadas.
 
-    Temperatura média do óleo cresce com Tamb.
-    Temperatura máxima cresce um pouco mais.
-  */
+    /*
+    Mais quente =
+    mais bolhas visíveis
+    */
 
-  const oilAverage =
-    43 + 0.60 * Tamb;
+    const bubbleCount =
+    Math.floor(
+    18 +
+    (temperature-23)*2.2
+    );
 
-  const oilMax =
-    54 + 0.70 * Tamb;
 
-  /*
-    Diferença térmica entre óleo médio e ambiente
-  */
+    for(
+        let i=0;
+        i<bubbleCount;
+        i++
+    ){
 
-  const deltaT =
-    oilAverage - Tamb;
+        const bubble =
+        document.createElement(
+        "div"
+        );
 
-  /*
-    Dissipação relativa:
-    quanto maior Tamb, menor a capacidade relativa
-    de dissipar calor.
-  */
+        bubble.className =
+        "bubble";
 
-  let dissipation =
-    100 - ((Tamb - 23) / (42 - 23)) * 55;
 
-  dissipation =
-    Math.max(45, Math.min(100, dissipation));
+        const size =
+        6 +
+        Math.random()*15;
 
 
-  document.getElementById("ambientValue")
-  .innerText =
-  Tamb.toFixed(0);
+        bubble.style.width =
+        size+"px";
 
-  document.getElementById("oilAverage")
-  .innerText =
-  oilAverage.toFixed(1);
+        bubble.style.height =
+        size+"px";
 
-  document.getElementById("oilMax")
-  .innerText =
-  oilMax.toFixed(1);
 
-  document.getElementById("deltaT")
-  .innerText =
-  deltaT.toFixed(1);
+        bubble.style.left =
+        Math.random()*95+"%";
 
-  document.getElementById("dissipation")
-  .innerText =
-  dissipation.toFixed(0);
 
-  document.getElementById("tempBadge")
-  .innerText =
-  "Ambiente: " + Tamb + " °C";
+        bubble.style.animationDuration =
+        (
+        3.5 +
+        Math.random()*4
+        )+"s";
 
 
-  /*
-    COR DO ÓLEO
-  */
+        bubble.style.animationDelay =
+        (
+        Math.random()*5
+        )+"s";
 
-  const oil =
-  document.getElementById("oil");
 
-  const hotspot =
-  document.getElementById("hotspot");
+        area.appendChild(
+        bubble
+        );
 
-
-  if(Tamb <= 27){
-
-    oil.style.background =
-    "linear-gradient(rgba(255,220,90,.60),rgba(255,160,40,.72))";
-
-    hotspot.style.background =
-    "radial-gradient(circle,rgba(255,120,0,.28),rgba(255,0,0,0))";
-
-  }
-
-  else if(Tamb <= 33){
-
-    oil.style.background =
-    "linear-gradient(rgba(255,190,70,.68),rgba(255,110,20,.78))";
-
-    hotspot.style.background =
-    "radial-gradient(circle,rgba(255,80,0,.40),rgba(255,0,0,0))";
-
-  }
-
-  else{
-
-    oil.style.background =
-    "linear-gradient(rgba(255,145,40,.72),rgba(210,35,20,.82))";
-
-    hotspot.style.background =
-    "radial-gradient(circle,rgba(255,0,0,.58),rgba(255,0,0,0))";
-
-  }
-
-
-  /*
-    CLASSIFICAÇÃO DIDÁTICA
-  */
-
-  const title =
-  document.getElementById("statusTitle");
-
-  const text =
-  document.getElementById("statusText");
-
-  const risk =
-  document.getElementById("riskLevel");
-
-  const warning =
-  document.getElementById("warningBox");
-
-
-  if(Tamb <= 27){
-
-    title.innerText =
-    "Boa condição de resfriamento";
-
-    text.innerText =
-    "A maior diferença térmica favorece a transferência de calor para o ambiente.";
-
-    risk.innerText =
-    "BAIXO";
-
-    warning.className =
-    "warning good";
-
-  }
-
-  else if(Tamb <= 33){
-
-    title.innerText =
-    "Condição moderada";
-
-    text.innerText =
-    "A dissipação de calor diminui e a temperatura do óleo começa a aumentar.";
-
-    risk.innerText =
-    "MODERADO";
-
-    warning.className =
-    "warning medium";
-
-  }
-
-  else{
-
-    title.innerText =
-    "Condição térmica crítica";
-
-    text.innerText =
-    "O ambiente quente reduz a dissipação de calor e aumenta significativamente a temperatura do óleo.";
-
-    risk.innerText =
-    "ELEVADO";
-
-    warning.className =
-    "warning bad";
-
-  }
+    }
 
 }
 
 
-updateSimulation(30);
+/* ==========================================
+   ALTERAR TEMPERATURA
+========================================== */
+
+function setTemperature(value){
+
+    slider.value =
+    value;
+
+    updateSimulation();
+
+}
+
+
+/* ==========================================
+   MODELO DIDÁTICO
+========================================== */
+
+function updateSimulation(){
+
+    const Ta =
+    Number(
+    slider.value
+    );
+
+
+    /*
+    Relações DIDÁTICAS.
+
+    Não são reprodução exata
+    do CFD do artigo.
+    */
+
+
+    /*
+    Crescimento da temperatura média
+    do óleo com o ambiente.
+    */
+
+    const meanOil =
+    46 +
+    0.74*Ta;
+
+
+    /*
+    Região mais quente
+    do óleo.
+    */
+
+    const maxOil =
+    55 +
+    0.89*Ta;
+
+
+    /*
+    diferença térmica
+    média.
+    */
+
+    const deltaT =
+    meanOil-Ta;
+
+
+    /*
+    dissipação relativa
+    decrescendo quando
+    temperatura ambiente aumenta.
+    */
+
+    let relativeDissipation =
+
+    100 -
+    (
+    (Ta-23)/
+    (42-23)
+    )*52;
+
+
+    relativeDissipation =
+
+    Math.max(
+    48,
+    relativeDissipation
+    );
+
+
+    /* ==================================
+       Atualizar painel
+    ================================== */
+
+    document.getElementById(
+    "ambientTop"
+    ).innerText =
+
+    Ta+" °C";
+
+
+    document.getElementById(
+    "oilAverage"
+    ).innerText =
+
+    meanOil.toFixed(1)
+    +" °C";
+
+
+    document.getElementById(
+    "oilMaximum"
+    ).innerText =
+
+    maxOil.toFixed(1)
+    +" °C";
+
+
+    document.getElementById(
+    "temperatureDifference"
+    ).innerText =
+
+    deltaT.toFixed(1)
+    +" °C";
+
+
+    document.getElementById(
+    "dissipation"
+    ).innerText =
+
+    relativeDissipation
+    .toFixed(0)
+    +" %";
+
+
+    /* ==================================
+       RISCO
+    ================================== */
+
+    let risk;
+    let status;
+    let message;
+
+
+    if(Ta <= 27){
+
+        risk =
+        "BAIXO";
+
+        status =
+        "NORMAL";
+
+        message =
+        "Boa dissipação térmica.";
+
+    }
+
+    else if(Ta <= 32){
+
+        risk =
+        "MODERADO";
+
+        status =
+        "ESTÁVEL";
+
+        message =
+        "Dissipação reduzida.";
+
+    }
+
+    else if(Ta <= 37){
+
+        risk =
+        "ALTO";
+
+        status =
+        "ATENÇÃO";
+
+        message =
+        "Temperatura do óleo elevada.";
+
+    }
+
+    else{
+
+        risk =
+        "ELEVADO";
+
+        status =
+        "ATENÇÃO";
+
+        message =
+        "Condição térmica crítica.";
+
+    }
+
+
+    document.getElementById(
+    "risk"
+    ).innerText =
+    risk;
+
+
+    document.getElementById(
+    "riskText"
+    ).innerText =
+    message;
+
+
+    document.getElementById(
+    "status"
+    ).innerText =
+    status;
+
+
+    document.getElementById(
+    "statusText"
+    ).innerText =
+    message;
+
+
+    /* ==================================
+       BRILHO DO ÓLEO
+    ================================== */
+
+    const intensity =
+
+    (Ta-23)/
+    (42-23);
+
+
+    const glow =
+    document.getElementById(
+    "oilGlow"
+    );
+
+
+    glow.style.opacity =
+    0.30 +
+    intensity*0.70;
+
+
+    glow.style.filter =
+    "blur("+
+    (
+    3 +
+    intensity*7
+    )
+    +"px)";
+
+
+    /* ==================================
+       BOLHAS
+    ================================== */
+
+    createBubbles();
+
+}
+
+
+/* ==========================================
+   SLIDER
+========================================== */
+
+slider.addEventListener(
+"input",
+updateSimulation
+);
+
+
+/* ==========================================
+   INICIAR
+========================================== */
+
+updateSimulation();
 
 </script>
 
